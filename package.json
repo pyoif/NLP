@@ -1,6 +1,6 @@
 {
   "name": "@hiyurigi/nlp",
-  "version": "1.0.0-1",
+  "version": "1.0.0-2",
   "description": "NLP in js/es",
   "main": "index.js",
   "scripts": {

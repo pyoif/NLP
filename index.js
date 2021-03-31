@@ -183,21 +183,20 @@ class NLP {
         // console.log(Unigram2)
         // console.log(result);
     
-        for (const i of result.Unigram1) {
-            // console.log(i)
-            let t = result.Unigram2.slice(result.Unigram1.indexOf(i) - this.wordPredictDistance < 0 ? 0 : result.Unigram1.indexOf(i) - this.wordPredictDistance, result.Unigram1.indexOf(i) + this.wordPredictDistance > result.Unigram2.length ? result.Unigram2.length : result.Unigram1.indexOf(i) + this.wordPredictDistance + 1);
-            if (t.includes(i)) {
-                result.similar.push(i);
+        for (let i in result.Unigram1) {
+            i = parseInt(i);
+            let t = result.Unigram2.slice(i - this.maxWordpredict < 0 ? 0 : parseInt(i) - this.maxWordpredict, i + this.maxWordpredict > result.Unigram2.length ? result.Unigram2.length : i + this.maxWordpredict + 1);
+            if (t.includes(result.Unigram1[i])) {
+                result.similar.push(result.Unigram1[i]);
             }else{
-                let conf = this.findKeyConfig(result.Unigram2[result.Unigram1.indexOf(i)]);
-                // console.log(conf)
+                let conf = this.findKeyConfig(result.Unigram2[i]);
                 if(conf.row && conf.col){
-                    if(conf['row'].includes(i)){
-                        result.Unigram2Fix[result.Unigram1.indexOf(i)] = conf['row'][conf['row'].indexOf(i)];
-                        result.similar.push(conf['row'][conf['row'].indexOf(i)]);
-                    }else if(conf['col'].includes(i)){
-                        result.Unigram2Fix[result.Unigram1.indexOf(i)] = conf['col'][conf['col'].indexOf(i)];
-                        result.similar.push(conf['col'][conf['col'].indexOf(i)]);
+                    if(conf['row'].includes(result.Unigram1[i])){
+                        result.Unigram2Fix[i] = conf['row'][conf['row'].indexOf(result.Unigram1[i])];
+                        result.similar.push(conf['row'][conf['row'].indexOf(result.Unigram1[i])]);
+                    }else if(conf['col'].includes(result.Unigram1[i])){
+                        result.Unigram2Fix[i] = conf['col'][conf['col'].indexOf(result.Unigram1[i])];
+                        result.similar.push(conf['col'][conf['col'].indexOf(result.Unigram1[i])]);
                     }
                 }
             }
@@ -218,13 +217,13 @@ class NLP {
         return result;
         
     }
-    TextCorrection({needle, haystack = [], keyRange, maxWordpredict}) {
-        this[checkTypes]({needle: ['str', needle], haystack: ['array', haystack], keyRange: ['int', keyRange, this.keyRange], maxWordpredict: ['int', maxWordpredict, this.maxWordpredict]}, true, true, "keyRange", "maxWordpredict").then((option) => {
+    TextCorrection({needle, haystack = [], keyRange, wordPredictDistance}) {
+        this[checkTypes]({needle: ['str', needle], haystack: ['array', haystack], keyRange: ['int', keyRange, this.keyRange], maxWordpredict: ['int', wordPredictDistance, this.maxWordpredict]}, true, true, "keyRange", "maxWordpredict").then((option) => {
             if(option['keyRange'].length > 1 && option['keyRange'] > this.keyRange && keyRange){
                 this.keyRange = keyRange
             }
-            if(option["maxWordpredict"].length > 1 && option['maxWordpredict'] > this.maxWordpredict && maxWordpredict){
-                this.maxWordpredict = maxWordpredict
+            if(option["maxWordpredict"].length > 1 && option['maxWordpredict'] > this.maxWordpredict && wordPredictDistance){
+                this.maxWordpredict = wordPredictDistance
             }
         });
 
