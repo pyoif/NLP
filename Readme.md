@@ -43,8 +43,8 @@ Output:
 |needle| Text you want to fix.| String \| **Required** | None |
 |haystack| Array contains data.| Array \| **Required**| None |
 |keyRange| Key distance on the keyboard.| Integer \| **Optional** | 2 |
-|maxWordPredict| Max word predict range | Integer \| **Optional** | 1
-------
+|maxWordPredict| Max word predict range | Integer \| **Optional** | 1 |
+
 # TODO List
 - [x] Create text correction
 - [ ] Create text completion
