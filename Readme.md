@@ -9,7 +9,7 @@ npm i @hiyurigi/NLP
 ## Example
 - Text Correction
 ``` js
-const NLP = require('./index');
+const NLP = require('@hiyurigi/nlp');
 let v = new NLP({keyRange: 2});
 v.TextCorrection({haystack: ["stats", "menu", "xzxz"], needle: "mqnts"});
 ```
