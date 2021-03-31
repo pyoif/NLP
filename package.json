@@ -1,0 +1,22 @@
+{
+  "name": "@hiyurigi/nlp",
+  "version": "1.0.0",
+  "description": "NLP in js/es",
+  "main": "index.js",
+  "scripts": {
+    "test": "node Test.js"
+  },
+  "keywords": [
+    "NLP"
+  ],
+  "author": "kaffu",
+  "license": "GPL-3.0-or-later",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hiyurigi/NLP.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Hiyurigi/NLP/issues"
+  },
+  "homepage": "https://github.com/Hiyurigi/NLP#readme"
+}
