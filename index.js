@@ -16,13 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */}
 
-const startTime = Date.now();
 String.prototype.capitalize = function() {return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase();}
-let is_int = String(Math.random()+(Date.now()-startTime));
-let checkTypes = String(Math.random()+(Date.now()-startTime));
-let validateTypes = String(Math.random()+(Date.now()-startTime));
-let KeyConfig = String(Math.random()+(Date.now()-startTime));
-let checkSimilarity = String(Math.random()+(Date.now()-startTime));
 if(Array.prototype.equals)
     console.warn("Overriding existing Array.prototype.equals. Possible causes: New API defines the method, there's a framework conflict or you've got double inclusions in your code.");
 // attach the .equals method to Array's prototype to call it on any array
@@ -49,10 +43,9 @@ Array.prototype.equals = function (array) {
     }       
     return true;
 }
-// Hide method from for-in loops
 Object.defineProperty(Array.prototype, "equals", {enumerable: false});
 class NLP {
-    [KeyConfig] = {
+    #KeyConfig = {
         row: [
             "`1234567890-=",
             "qwertyuiop[]\\",
@@ -75,12 +68,12 @@ class NLP {
         ]
     }
     constructor({keyRange = 2, wordPredictDistance = 1}) {
-        this[checkTypes]({keyRange: ['int', keyRange], wordPredictDistance: ['int', wordPredictDistance]}, true);
+        this.#checkTypes({keyRange: ['int', keyRange], wordPredictDistance: ['int', wordPredictDistance]}, true);
         this.maxWordpredict = wordPredictDistance;
         this.keyRange = keyRange;
         return this
     }
-    [validateTypes](Type, value){
+    #validateTypes(Type, value){
         let result = {Type: Type, Value: [], Empty: true, Valid: []}
         Type = Type.toLowerCase() == "array" ? "object" : ["int", "integer"].includes(Type.toLowerCase()) ? "number" : Type.toLowerCase() == "str" ? "string" : Type;
         for(let x of value){
@@ -94,20 +87,19 @@ class NLP {
         }
         return result;
     }
-    async [checkTypes](list, empty_check = false, returnVar = false, ...returnList){
+    async #checkTypes(list, empty_check = false, returnVar = false, ...returnList){
         let results = {}
         let returnVal = {}
         for(let key in list){
             let Type = list[key][0];
             list[key].shift()
-            const result = await this[validateTypes](Type, list[key]);
+            const result = await this.#validateTypes(Type, list[key]);
             results[key] = result;
         };
         for(let x in results){
             if(empty_check && results[x]['Empty']){
                 throw new Error(`${x.capitalize()} is Empty!`)
             }
-            // console.log(!results[x]['Valid'].includes(true))
             if(!results[x]['Valid'].includes(true)){
                 throw new Error(`${x.capitalize()} must be ${results[x]['Type'].capitalize()}`);
             }else if(returnVar){
@@ -117,58 +109,47 @@ class NLP {
                 if(returnList.includes(x)){
                     returnVal[x] = results[x]['Value'];
                 }
-                // console.log(returnVal)
             }
         }
-        // console.log(returnVal)
         return returnVal;
     }
-    [is_int](value) {
+    #is_int(value) {
         return parseInt(value) === parseFloat(value);
     }
-    [checkSimilarity](word1, word2, similar){
-        // Math.max(word1.length, word2.length)
+    #checkSimilarity(word1, word2, similar){
         return similar.length / (Math.sqrt(word1.length) * Math.sqrt( word2.length));
     }
-    findKeyConfig(word){
-        // console.log(word);
+    #findKeyConfig(word){
         let pos = {row: [], col: []}
         let keyList = {row: [], col: []}
-        for(let x in this[KeyConfig]['row']){
-            if(this[KeyConfig]['row'][x].includes(word)){
+        for(let x in this.#KeyConfig['row']){
+            if(this.#KeyConfig['row'][x].includes(word)){
                 pos['row'].push(x);
-                pos['row'].push(this[KeyConfig]['row'][x].indexOf(word));
+                pos['row'].push(this.#KeyConfig['row'][x].indexOf(word));
                 break;
             }
         }
-        for(let y in this[KeyConfig]['col']){
-            if(this[KeyConfig]['col'][y].includes(word)){
+        for(let y in this.#KeyConfig['col']){
+            if(this.#KeyConfig['col'][y].includes(word)){
                 pos['col'].push(y);
-                pos['col'].push(this[KeyConfig]['col'][y].indexOf(word));
+                pos['col'].push(this.#KeyConfig['col'][y].indexOf(word));
                 break;
             }
         }
-        // console.log(this[KeyConfig]['row'][pos['row'][0]])
         if(pos['row'].length > 0){
-            keyList['row'] =  this[KeyConfig]['row'][pos['row'][0]].slice(pos['row'][1] - this.keyRange < 1 ? 0 : pos['row'][1] - this.keyRange, pos['row'][1] + this.keyRange > this[KeyConfig]['row'][pos['row'][0]].length ? this[KeyConfig]['row'][pos['row'][0]].length : pos['row'][1] + this.keyRange + 1).split("");
+            keyList['row'] =  this.#KeyConfig['row'][pos['row'][0]].slice(pos['row'][1] - this.keyRange < 1 ? 0 : pos['row'][1] - this.keyRange, pos['row'][1] + this.keyRange > this.#KeyConfig['row'][pos['row'][0]].length ? this.#KeyConfig['row'][pos['row'][0]].length : pos['row'][1] + this.keyRange + 1).split("");
         }
         if(pos['col'].length > 0){
-            keyList['col'] =  this[KeyConfig]['col'][pos['col'][0]].slice(pos['col'][1] - this.keyRange < 1 ? 0 : pos['col'][1] - this.keyRange, pos['col'][1] + this.keyRange > this[KeyConfig]['col'][pos['col'][0]].length ? this[KeyConfig]['col'][pos['col'][0]].length : pos['col'][1] + this.keyRange + 1).split("");
+            keyList['col'] =  this.#KeyConfig['col'][pos['col'][0]].slice(pos['col'][1] - this.keyRange < 1 ? 0 : pos['col'][1] - this.keyRange, pos['col'][1] + this.keyRange > this.#KeyConfig['col'][pos['col'][0]].length ? this.#KeyConfig['col'][pos['col'][0]].length : pos['col'][1] + this.keyRange + 1).split("");
         }
         return keyList;
     }
-    keyboardCorrection = (word) => {
-        return new Promise((resolve, reject) => {
-            resolve(this.findKeyConfig(word));
-        })
-    }
-    getUnigram(word) {
+    #getUnigram(word) {
         let result = [];
     
         for (let i = 0; i < word.length; i++) {
             result.push(word[i]);
         }
-        // result.push(word.length)
     
         return result;
     }
@@ -176,20 +157,15 @@ class NLP {
     getSimilarity(word1, word2) {
         word1 = String(word1).toLowerCase();
         word2 = String(word2).toLowerCase();
-        let result = {Unigram1: this.getUnigram(word1), Unigram2: this.getUnigram(word2), Unigram2Fix: this.getUnigram(word2), similar: []}
-        // const Unigram1 = this.getBigram(word1), Unigram2 = this.getBigram(word2);
-        // let similar = [];
-        // console.log(Unigram1)
-        // console.log(Unigram2)
-        // console.log(result);
+        let result = {Unigram1: this.#getUnigram(word1), Unigram2: this.#getUnigram(word2), Unigram2Fix: this.#getUnigram(word2), similar: []}
     
         for (let i in result.Unigram1) {
             i = parseInt(i);
-            let t = result.Unigram2.slice(i - this.maxWordpredict < 0 ? 0 : parseInt(i) - this.maxWordpredict, i + this.maxWordpredict > result.Unigram2.length ? result.Unigram2.length : i + this.maxWordpredict + 1);
+            let t = result.Unigram2.slice(i - this.maxWordpredict < 0 ? 0 : i - this.maxWordpredict, i + this.maxWordpredict > result.Unigram2.length ? result.Unigram2.length : i + this.maxWordpredict + 1);
             if (t.includes(result.Unigram1[i])) {
                 result.similar.push(result.Unigram1[i]);
             }else{
-                let conf = this.findKeyConfig(result.Unigram2[i]);
+                let conf = this.#findKeyConfig(result.Unigram2[i]);
                 if(conf.row && conf.col){
                     if(conf['row'].includes(result.Unigram1[i])){
                         result.Unigram2Fix[i] = conf['row'][conf['row'].indexOf(result.Unigram1[i])];
@@ -211,14 +187,12 @@ class NLP {
         if(result.Unigram2Fix.equals(result.Unigram2)){
             delete result.Unigram2Fix;
         }
-        result.similarity = this[checkSimilarity](result.Unigram1, typeof result.Unigram2Fix == "undefined" ? result.Unigram2 : result.Unigram2Fix, result.similar);
-        // console.log(result);
-        // {Unigram1: Unigram1, Unigram2: Unigram2, similarity: this[checkSimilarity](Unigram1, Unigram2, similar)}
+        result.similarity = this.#checkSimilarity(result.Unigram1, typeof result.Unigram2Fix == "undefined" ? result.Unigram2 : result.Unigram2Fix, result.similar);
         return result;
         
     }
     TextCorrection({needle, haystack = [], keyRange, wordPredictDistance}) {
-        this[checkTypes]({needle: ['str', needle], haystack: ['array', haystack], keyRange: ['int', keyRange, this.keyRange], maxWordpredict: ['int', wordPredictDistance, this.maxWordpredict]}, true, true, "keyRange", "maxWordpredict").then((option) => {
+        this.#checkTypes({needle: ['str', needle], haystack: ['array', haystack], keyRange: ['int', keyRange, this.keyRange], maxWordpredict: ['int', wordPredictDistance, this.maxWordpredict]}, true, true, "keyRange", "maxWordpredict").then((option) => {
             if(option['keyRange'].length > 1 && option['keyRange'] > this.keyRange && keyRange){
                 this.keyRange = keyRange
             }
@@ -229,7 +203,6 @@ class NLP {
 
         let info = []
         for (let i of haystack) {
-            // console.log(i)
             info.push(this.getSimilarity(i, needle))
         }
         info = info.sort((a, b) => parseFloat(b.similarity) - parseFloat(a.similarity))

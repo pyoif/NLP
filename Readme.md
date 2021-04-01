@@ -39,12 +39,12 @@ npm i @hiyurigi/NLP
     }
     ]
     ```
-|Parameter|Description|Type|Default|
-|---------|-----------|----|-------|
-|needle| Text you want to fix.| String \| **Required** | None |
-|haystack| Array contains data.| Array \| **Required**| None |
-|keyRange| Key distance on the keyboard.| Integer \| **Optional** | 2 |
-|wordPredictDistance| Max word predict distance. | Integer \| **Optional** | 1 |
+    |Parameter|Description|Type|Default|
+    |---------|-----------|----|-------|
+    |needle| Text you want to fix.| String \| **Required** | None |
+    |haystack| Array contains data.| Array \| **Required**| None |
+    |keyRange| Key distance on the keyboard.| Integer \| **Optional** | 2 |
+    |wordPredictDistance| Max word predict distance. | Integer \| **Optional** | 1 |
 
 ## Testing
 ```
