@@ -1,10 +1,13 @@
 {
   "name": "@hiyurigi/nlp",
-  "version": "1.1.0",
+  "version": "1.1.0-1",
   "description": "NLP in js/es",
   "main": "index.js",
   "scripts": {
     "test": "node Test.js"
+  },
+  "engines": {
+    "node": ">=14.16.0"
   },
   "keywords": [
     "NLP"

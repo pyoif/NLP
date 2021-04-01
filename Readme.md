@@ -12,9 +12,10 @@ npm i @hiyurigi/NLP
     ```javascript
     const NLP = require('@hiyurigi/nlp');
     let v = new NLP({keyRange: 2});
-    v.TextCorrection({haystack: ["stats", "menu", "xzxz"], needle: "mqnts"});
+    let result = v.TextCorrection({haystack: ["stats", "menu", "xzxz"], needle: "mqnts"});
+    console.log(result);
     ```
-    Output:
+    ### Output:
     ```javascript
     [
     {
@@ -55,7 +56,7 @@ npm test
 - [x] Create text correction
 - [ ] Create text completion
 
-> If you have a Idea just contact me
+> If you have a Idea feel free to suggest me
 
 # License
 [License](COPYING) - GNU GPLv3
