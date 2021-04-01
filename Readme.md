@@ -3,19 +3,19 @@ A simple implementation of NLP in JS.
 
 # How to use
 ## Installation
-```
+```bash
 npm i @hiyurigi/NLP
 ```
 ## Function
 - Text Correction
   ### Example:
-    ``` js
+    ```javascript
     const NLP = require('@hiyurigi/nlp');
     let v = new NLP({keyRange: 2});
     v.TextCorrection({haystack: ["stats", "menu", "xzxz"], needle: "mqnts"});
     ```
-    ```json
     Output:
+    ```javascript
     [
     {
         Unigram1: [ 'm', 'e', 'n', 'u' ],
@@ -47,7 +47,7 @@ npm i @hiyurigi/NLP
     |wordPredictDistance| Max word predict distance. | Integer \| **Optional** | 1 |
 
 ## Testing
-```
+```bash
 npm test
 ```
 
