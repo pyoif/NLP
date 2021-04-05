@@ -1,0 +1,8 @@
+{
+    "include": [
+        "TextCorrection"
+    ],
+    "lib": [
+        "CError"
+    ]
+}
