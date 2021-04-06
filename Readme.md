@@ -47,6 +47,8 @@ npm i @hiyurigi/nlp
     |---------|-----------|----|-------|
     |UncompleteText| Uncompleted Text.|String \| **Required**|None
 
+> [Read More](https://github.com/Hiyurigi/NLP/wiki)
+
 ## Testing
 ```bash
 npm test

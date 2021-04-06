@@ -20,8 +20,8 @@ const TextCorrection = base => class TextCorrection extends base{
         let info = []
         let p;
         for (let i of super.getDataset()) {
-            p = Autofix ? this.#getSimilarity(i, Needle, Autofix) : this.#getSimilarity(i, Needle);
-            p.fixed !== undefined ? info.push({Key: p['Key'], Text: p.fixed, similarity: p["similarity"]}) : info.push({Key: p['Key'], Text: p.Original, similarity: p["similarity"]})
+            p = this.#getSimilarity(i, Needle, Autofix);
+            p.fixed !== undefined ? info.push({Key: p.Key, Text: p.fixed, similarity: p.similarity}) : info.push({Key: p.Key, Text: p.Original, similarity: p.similarity})
         }
         p = null;
         info = info.sort((a, b) => parseFloat(b.similarity) - parseFloat(a.similarity))
@@ -119,22 +119,25 @@ const TextCorrection = base => class TextCorrection extends base{
         }
         result.similarity = this.#checkSimilarity(result.Ngram1, result.Ngram2Fix == undefined ? result.Ngram2 : result.Ngram2Fix, result.similar);
         if(result.Ngram2Fix !== undefined){
-            result.fixed = []
-            for(let x of result.Ngram2Fix){
-                for(let xx of x){
-                    result.fixed.push(xx)
-                }
-            }
+            result.fixed = this.#getArrayValue(result.Ngram2Fix);
         }else{
-            result.Original = []
-            for(let x of result.Ngram2){
-                for(let xx of x){
-                    result.Original.push(xx)
-                }
-            }
+            result.Original = this.#getArrayValue(result.Ngram2);
         }
         return result;
         
+    }
+
+    #getArrayValue(multiArray, valueChange){
+        let result = !valueChange ? [] : valueChange;
+        for(let x of multiArray){
+            // console.log(x)
+            if(x instanceof Array){
+                result = this.#getArrayValue(x, result);
+            }else if(typeof x == "string"){
+                result.push(x);
+            }
+        }
+        return result
     }
 
     #getNgram(word) {
