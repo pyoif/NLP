@@ -22,7 +22,11 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **Your code**
-Insert your code here.
+Insert your code inside.
+```javascript
+[//]: # (Put your code inside here.)
+
+```
 
 **Desktop (please complete the following information):**
  - OS: [e.g. iOS]
