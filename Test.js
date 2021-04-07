@@ -34,6 +34,7 @@ let list = [
   ]
 let v = new NLP(list);
 let result = v.TextCorrection({Needle: "dadu", Threshold: 0.2, NgramsLength: 1, KeyRange: 1, Autofix: false});
+result = v.TextCorrection({Needle: "mwny", Threshold: 0.2, NgramsLength: 1, KeyRange: 1, Autofix: false});
 // let v = new NLP(["stats", "menu"], {});
 // let result = v.TextCompletion("m");
 console.log(result);

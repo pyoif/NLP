@@ -1,5 +1,3 @@
-let v = require("./import");
-
 const MyHandler = base => {return class Handler extends base {
     constructor(dataset, {...settings} = {}){
         super(dataset, {config: settings})
@@ -10,7 +8,8 @@ const MyHandler = base => {return class Handler extends base {
 }}
 
 function init(...importList){
-    v = new v(importList.length !== 0 ? importList : ["TextCorrection"])
+    let v = require("./import");
+    v = new v(importList !== (0||[]||undefined||null) ? importList : ["TextCorrection"])
     return MyHandler(v.getFunc());
 }
 
