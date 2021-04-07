@@ -24,8 +24,7 @@ If applicable, add screenshots to help explain your problem.
 **Your code**
 Insert your code inside.
 ```javascript
-[//]: # (Put your code inside here.)
-
+//Your code here.
 ```
 
 **Desktop (please complete the following information):**
@@ -41,3 +40,6 @@ Insert your code inside.
 
 **Additional context**
 Add any other context about the problem here.
+```bash
+#Your error message here.
+```
